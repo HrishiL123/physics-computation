@@ -27,6 +27,30 @@ def electric_field_point_charge(q, r_charge, r_point):
 
     E = k * q * r / r_mag**3
     return E
+def electric_field(charges, points):
+    """
+    Compute total electric field at points due to multiple charges.
+
+    Parameters
+    ----------
+    charges : list of tuples
+        Each tuple: (q, r_charge), q in C, r_charge as [x, y]
+    points : list of numpy arrays
+        Locations to evaluate E
+
+    Returns
+    -------
+    list of numpy arrays
+        Electric field vectors at each point
+    """
+    E_total = []
+    for r_point in points:
+        E_point = np.zeros(2)  # assuming 2D
+        for q, r_charge in charges:
+            E_point += electric_field_point_charge(q, np.array(r_charge), np.array(r_point))
+        E_total.append(E_point)
+    return E_total
+
 if __name__ == "__main__":
     q = 1e-9  # 1 nC
     r_charge = np.array([0.0, 0.0])
